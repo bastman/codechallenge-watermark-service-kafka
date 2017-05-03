@@ -1,5 +1,8 @@
 package com.bastman.codechallenge.watermarkservice.domain
 
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
+
 enum class BookTopic {
     Business,
     Science,
@@ -7,37 +10,85 @@ enum class BookTopic {
     ;
 }
 
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        property = "type",
+        include = JsonTypeInfo.As.EXISTING_PROPERTY
+)
+@JsonSubTypes(
+        JsonSubTypes.Type(value = Watermark.Book::class, name = Watermark.TYPE_BOOK),
+        JsonSubTypes.Type(value = Watermark.Journal::class, name = Watermark.TYPE_JOURNAL)
+)
 sealed class Watermark {
+    companion object {
+        const val TYPE_JOURNAL = "Watermark.Journal"
+        const val TYPE_BOOK = "Watermark.Book"
+    }
 
     data class Journal(
             val title: String, val author: String, val content: String
-    ) : Watermark()
+    ) : Watermark() {
+        val type = TYPE_JOURNAL
+    }
 
     data class Book(
             val title: String, val author: String, val content: String, val topic: BookTopic
-    ) : Watermark()
+    ) : Watermark() {
+        val type = TYPE_BOOK
+    }
 }
 
-
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        property = "type",
+        include = JsonTypeInfo.As.EXISTING_PROPERTY
+)
+@JsonSubTypes(
+        JsonSubTypes.Type(value = SourcePublication.Book::class, name = SourcePublication.TYPE_BOOK),
+        JsonSubTypes.Type(value = SourcePublication.Journal::class, name = SourcePublication.TYPE_JOURNAL)
+)
 sealed class SourcePublication {
+    companion object {
+        const val TYPE_JOURNAL = "SourcePublication.Journal"
+        const val TYPE_BOOK = "SourcePublication.Book"
+    }
 
     data class Journal(
             val title: String, val author: String, val content: String
-    ) : SourcePublication()
+    ) : SourcePublication() {
+        val type = TYPE_JOURNAL
+    }
 
     data class Book(
             val title: String, val author: String, val content: String, val topic: BookTopic
-    ) : SourcePublication()
+    ) : SourcePublication() {
+        val type = TYPE_BOOK
+    }
 }
 
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        property = "type",
+        include = JsonTypeInfo.As.EXISTING_PROPERTY
+)
+@JsonSubTypes(
+        JsonSubTypes.Type(value = WatermarkedPublication.Book::class, name = WatermarkedPublication.TYPE_BOOK),
+        JsonSubTypes.Type(value = WatermarkedPublication.Journal::class, name = WatermarkedPublication.TYPE_JOURNAL)
+)
 sealed class WatermarkedPublication {
+    companion object {
+        const val TYPE_JOURNAL = "WatermarkedPublication.Journal"
+        const val TYPE_BOOK = "WatermarkedPublication.Book"
+    }
 
     data class Journal(
             val title: String,
             val author: String,
             val content: String,
             val watermark: Watermark.Journal
-    ) : WatermarkedPublication()
+    ) : WatermarkedPublication() {
+        val type=TYPE_JOURNAL
+    }
 
     data class Book(
             val title: String,
@@ -45,7 +96,9 @@ sealed class WatermarkedPublication {
             val content: String,
             val topic: BookTopic,
             val watermark: Watermark.Book
-    ) : WatermarkedPublication()
+    ) : WatermarkedPublication() {
+        val type=TYPE_BOOK
+    }
 }
 
 fun watermarkPublication(sourcePublication: SourcePublication): WatermarkedPublication = when (sourcePublication) {

@@ -83,12 +83,16 @@ class KafkaWorker(workerWorkerConfig: KafkaWorkerConfig) {
     }
 
     private fun watermark(sourceValueJson: String): List<KafkaWatermarkCompleteEvent> {
+        LOGGER.info("GOT SOMETHING !!!! $sourceValueJson")
+
         val sourceEvent: KafkaPublicationReceivedEvent = try {
             JSON.decode<KafkaPublicationReceivedEvent>(sourceValueJson)
         } catch (all: Throwable) {
+            LOGGER.info("FAILED TO json decode !!!! $sourceValueJson")
             return emptyList()
         }
 
+        LOGGER.info("decoded. $sourceValueJson")
         val watermarkedPublication = watermarkPublication(sourceEvent.sourcePublication)
 
         val sinkEvent = KafkaWatermarkCompleteEvent(

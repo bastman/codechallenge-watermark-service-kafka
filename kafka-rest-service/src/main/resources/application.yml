@@ -4,7 +4,7 @@ spring:
 kafka:
   servers: 127.0.0.1:9092
   appId: com.bastman.codechallenge.watermarkservice.kafkaworker
-  producerTopic: codechallenge.watermarkservice.kafkaworker.publication-received.2017-05-03
+  producerTopic: codechallenge.watermarkservice.kafkaworker.publication-received.2017-05-03.001
   consumerTopic: codechallenge.watermarkservice.kafkaworker.watermark-complete.2017-05-03
   consumerGroupIdPrefix: com.bastman.codechallenge.watermarkservice.kafka-rest-service
 

@@ -38,4 +38,5 @@ object KafkaEventSerializer {
                     SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS
             )
     val JSON = JSON_BUILDER.build()
+
 }
