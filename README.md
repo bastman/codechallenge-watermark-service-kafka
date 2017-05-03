@@ -27,4 +27,8 @@
     
 ## run kafka-rest-api
     $ ./gradlew :kafka-rest-service:bootRun
+    
+## Troubleshooting
+    - the default installation assumes kafka running at 127.0.0.1:9092
+    - if you run kafka on a different host/port, you may need to adjust the kafka-server settings defined application.yml of each gradle module
         
