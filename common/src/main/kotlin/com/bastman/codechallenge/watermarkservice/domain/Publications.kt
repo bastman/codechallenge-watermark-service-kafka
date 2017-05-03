@@ -12,8 +12,7 @@ enum class BookTopic {
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
-        property = "type",
-        include = JsonTypeInfo.As.EXISTING_PROPERTY
+        include = JsonTypeInfo.As.PROPERTY
 )
 @JsonSubTypes(
         JsonSubTypes.Type(value = Watermark.Book::class, name = Watermark.TYPE_BOOK),
@@ -27,21 +26,16 @@ sealed class Watermark {
 
     data class Journal(
             val title: String, val author: String, val content: String
-    ) : Watermark() {
-        val type = TYPE_JOURNAL
-    }
+    ) : Watermark()
 
     data class Book(
             val title: String, val author: String, val content: String, val topic: BookTopic
-    ) : Watermark() {
-        val type = TYPE_BOOK
-    }
+    ) : Watermark()
 }
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
-        property = "type",
-        include = JsonTypeInfo.As.EXISTING_PROPERTY
+        include = JsonTypeInfo.As.PROPERTY
 )
 @JsonSubTypes(
         JsonSubTypes.Type(value = SourcePublication.Book::class, name = SourcePublication.TYPE_BOOK),
@@ -55,21 +49,16 @@ sealed class SourcePublication {
 
     data class Journal(
             val title: String, val author: String, val content: String
-    ) : SourcePublication() {
-        val type = TYPE_JOURNAL
-    }
+    ) : SourcePublication()
 
     data class Book(
             val title: String, val author: String, val content: String, val topic: BookTopic
-    ) : SourcePublication() {
-        val type = TYPE_BOOK
-    }
+    ) : SourcePublication()
 }
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
-        property = "type",
-        include = JsonTypeInfo.As.EXISTING_PROPERTY
+        include = JsonTypeInfo.As.PROPERTY
 )
 @JsonSubTypes(
         JsonSubTypes.Type(value = WatermarkedPublication.Book::class, name = WatermarkedPublication.TYPE_BOOK),
@@ -86,9 +75,7 @@ sealed class WatermarkedPublication {
             val author: String,
             val content: String,
             val watermark: Watermark.Journal
-    ) : WatermarkedPublication() {
-        val type=TYPE_JOURNAL
-    }
+    ) : WatermarkedPublication()
 
     data class Book(
             val title: String,
@@ -96,9 +83,7 @@ sealed class WatermarkedPublication {
             val content: String,
             val topic: BookTopic,
             val watermark: Watermark.Book
-    ) : WatermarkedPublication() {
-        val type=TYPE_BOOK
-    }
+    ) : WatermarkedPublication()
 }
 
 fun watermarkPublication(sourcePublication: SourcePublication): WatermarkedPublication = when (sourcePublication) {
