@@ -1,0 +1,10 @@
+version: '2'
+services:
+  kafka:
+    image: spotify/kafka
+    ports:
+      - "2181:2181"
+      - "9092:9092"
+    environment:
+      ADVERTISED_HOST: 0.0.0.0
+      ADVERTISED_PORT: 9092

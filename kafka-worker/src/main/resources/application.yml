@@ -1,0 +1,16 @@
+spring:
+  main.banner-mode: 'OFF'
+
+kafka:
+  servers: 127.0.0.1:9092
+  appId: com.bastman.codechallenge.watermarkservice.kafkaworker
+  sourceTopic: codechallenge.watermarkservice.kafkaworker.publication-received.2017-05-03
+  sinkTopic: codechallenge.watermarkservice.kafkaworker.watermark-complete.2017-05-03
+  sendToSinkEnabled: false
+
+---
+spring:
+  profiles: dry-run
+kafka:
+  sendToSinkEnabled: false
+
