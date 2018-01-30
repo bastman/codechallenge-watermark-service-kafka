@@ -3,6 +3,12 @@
 - based on : https://github.com/bastman/codechallenge-watermark-service
 - but uses kafka as persistent storage engine
 
+## the pipeline - CQRS & EventSourcing
+- rest-api (as producer): create a job -> store job into kafka-topic
+- kafka-worker: process jobs from kafka-source-topic and put result into kafka-sink-topic
+- rest-api (as consumer): listen to kafka-sink-topic and keep results in-memory
+- rest-api: provide interface to access jobs being processed.
+
 ## status
 
 - proof-of-concept.
