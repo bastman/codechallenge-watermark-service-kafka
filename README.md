@@ -5,8 +5,7 @@
 
 ## status
 
-- currently implementing a proof-of-concept. this is not ready yet.
-- all components are working together
+- proof-of-concept.
 
 ## TODO
 - try to get rid of jackson's type hints, which pollute the data model
